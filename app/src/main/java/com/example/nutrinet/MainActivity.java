@@ -1,8 +1,8 @@
 package com.example.nutrinet;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     ListViewAdapter adapter;
     SearchView editsearch;
     String[] produceNameList;
-    ArrayList<ProduceNames> arraylist = new ArrayList<ProduceNames>();
+    ArrayList<ProduceNames> arraylist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 "Dairy", "Grains", "Oils"};
 
         // Locate the ListView in listview_main.xml
-        list = (ListView) findViewById(R.id.listview);
+        list = findViewById(R.id.listview);
 
         //the length of the food categories string array
-        for (int i = 0; i < produceNameList.length; i++) {
-            ProduceNames produceNames = new ProduceNames(produceNameList[i]);
+        for (String s : produceNameList) {
+            ProduceNames produceNames = new ProduceNames(s);
             // Binds all strings into an array
             arraylist.add(produceNames);
         }
@@ -43,11 +43,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         list.setAdapter(adapter);
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search);
+        editsearch = findViewById(R.id.search);
         editsearch.setOnQueryTextListener(this);
 
     }
+//The code relegating accessing the FDC API was implemented in Kotlin, will be utilized once we migrate the rest of the code from Kotlin to Java
 
+//    Accesses the Food Data Central API, using a custom API key
+//    https://fdc.nal.usda.gov/api-spec/fdc_api.html#/FDC/getFood docs regarding posting and getting foods
+//    See the "Sample Calls" of (https://fdc.nal.usda.gov/api-guide.html)
+//    Gives information on how to use the API
+
+
+//    private fun accessFDC() {
+//        val thread = Thread {
+//            try {
+//                val jsonString = URL("https://api.nal.usda.gov/fdc/v1/foods/search?api_key=<KEY GOES HERE>").readText()
+//                Log.d(javaClass.simpleName, jsonString)
+//
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//
+//        thread.start()
+//    }
     @Override
     public boolean onQueryTextSubmit(String query) {
 
@@ -56,8 +76,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        String text = newText;
-        adapter.filter(text);
+        adapter.filter(newText);
         return false;
     }
 }
