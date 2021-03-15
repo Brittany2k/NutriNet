@@ -2,5 +2,4 @@ Individual Contributions:
 
 Brittany Zabawa: Created ListViewAdapter and ProduceNames.java, and created xml files. Will work on the applications layouts going forward and logic regarding displaying API information.
 
-Amar Adilovic: Worked on getting API access (received an API key to the FDC API), in the process of applying for the Kroger API. Will work on getting the information from the API 
-and using that information to send it to the front-end. 
+Amar Adilovic: Worked on getting API access (received an API key to the FDC API), in the process of applying for the Kroger API. Will work on getting the information from the API and using that information to send it to the front-end. 
