@@ -26,7 +26,7 @@ public class ListViewAdapter extends BaseAdapter {
         this.arraylist = new ArrayList<ProduceNames>();
         this.arraylist.addAll(produceNamesList);
     }
-
+//
     public class ViewHolder {
         TextView name;
     }
