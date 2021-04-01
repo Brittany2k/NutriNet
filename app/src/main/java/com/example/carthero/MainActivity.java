@@ -1,8 +1,7 @@
-package com.example.nutrinet;
+package com.example.carthero;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.SearchView;
 

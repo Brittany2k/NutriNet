@@ -1,4 +1,4 @@
-package com.example.nutrinet;
+package com.example.carthero;
 
 import org.junit.Test;
 
