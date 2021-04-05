@@ -1,6 +1,10 @@
 package com.example.nutrinet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -22,7 +26,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this would be used for search for foods by categories
+        ViewPager viewPager = findViewById(R.id.viewPager);
+
+        AuthenticationPagerAdapter pagerAdapter = new AuthenticationPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragmet(new LoginFragment());
+        pagerAdapter.addFragmet(new RegisterFragment());
+        viewPager.setAdapter(pagerAdapter);
+
+
+
+        /*//this would be used for search for foods by categories
         produceNameList = new String[]{"Fruits", "Vegetables", "Protein",
                 "Dairy", "Grains", "Oils"};
 
@@ -44,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         // Locate the EditText in listview_main.xml
         editsearch = (SearchView) findViewById(R.id.search);
-        editsearch.setOnQueryTextListener(this);
+        editsearch.setOnQueryTextListener(this);*/
+
 
     }
 
@@ -59,5 +73,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String text = newText;
         adapter.filter(text);
         return false;
+    }
+
+    class AuthenticationPagerAdapter extends FragmentPagerAdapter {
+        private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        public AuthenticationPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return fragmentList.get(i);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        void addFragmet(Fragment fragment) {
+            fragmentList.add(fragment);
+        }
     }
 }
