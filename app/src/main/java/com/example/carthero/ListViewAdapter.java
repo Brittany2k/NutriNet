@@ -1,4 +1,4 @@
-package com.example.nutrinet;
+package com.example.carthero;
 
 import android.content.Context;
 import android.view.LayoutInflater;
