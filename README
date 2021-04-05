@@ -4,14 +4,13 @@ Brittany Zabawa: Created ListViewAdapter and ProduceNames.java, and created xml 
 
 Amar Adilovic: Worked on getting API access (received an API key to the FDC API), in the process of applying for the Kroger API. Will work on getting the information from the API and using that information to send it to the front-end. 
 
-Current Problems:
+Amar:
+Received Kroger API access, currently working on managing the POST requests to Kroger's API and then retrieving product information from Kroger.
+Will use this information to display to user using already existing implementations. 
+Will store our API key in a secret variable and thus code will not function without this API key.
+Haven't pushed this portion yet as it is causing the entire app to crash, working on bug-fixing.
 
-Kroger API seems to be the hardest part with our project.
-We have not pushed it yet to the github because we are getting a lot of errors.
-Also, Kroger API key's we were given are sensitive information.
-We are developing a way to encrypt/protect the senstive information.
-
-Success:
+Brittany:
 SQLite Database for Consumers and returning guests of the application.
 Still running full testing on the login/registration capabilities but so far fine.
 Had to comment out the search engine feature because it needs to be updated to work as a reaction from clicking registration button
