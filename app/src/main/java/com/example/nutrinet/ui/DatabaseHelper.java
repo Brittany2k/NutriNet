@@ -1,11 +1,11 @@
-package com.example.nutrinet;
+package com.example.nutrinet.ui;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.nutrinet.User;
+import com.example.nutrinet.ui.User;
 import java.util.ArrayList;
 import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {

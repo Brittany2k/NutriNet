@@ -1,4 +1,4 @@
-package com.example.nutrinet;
+package com.example.nutrinet.ui;
 
 import android.app.Activity;
 import android.content.Context;

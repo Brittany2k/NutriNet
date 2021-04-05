@@ -1,4 +1,4 @@
-package com.example.nutrinet;
+package com.example.nutrinet.ui;
 
 public class User {
     private int id;

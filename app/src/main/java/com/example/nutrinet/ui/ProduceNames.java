@@ -1,4 +1,4 @@
-package com.example.carthero;
+package com.example.nutrinet.ui;
 
 public class ProduceNames {
     private String produceName;

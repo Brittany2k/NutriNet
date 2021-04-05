@@ -1,4 +1,4 @@
-package com.example.nutrinet;
+package com.example.nutrinet.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
