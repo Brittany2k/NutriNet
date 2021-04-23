@@ -26,10 +26,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private TextInputLayout LayoutEmail;
     private TextInputLayout LayoutPassword;
     private TextInputLayout LayoutConfirmPassword;
+    private TextInputLayout LayoutBudget;
     private TextInputEditText TextName;
     private TextInputEditText TextEmail;
     private TextInputEditText TextPassword;
     private TextInputEditText TextConfirmPassword;
+    private TextInputEditText TextBudget;
     private Button ButtonRegister;
     private InputValidation inputValidation;
     private DatabaseHelper databaseHelper;
@@ -94,11 +96,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         LayoutEmail = (TextInputLayout) view.findViewById(R.id.textInputLayoutEmail);
         LayoutPassword = (TextInputLayout) view.findViewById(R.id.textInputLayoutPassword);
         LayoutConfirmPassword = (TextInputLayout) view.findViewById(R.id.textInputLayoutConfirmPassword);
+        LayoutBudget = (TextInputLayout) view.findViewById(R.id.textInputLayoutPriceGoal);
         TextName = (TextInputEditText) view.findViewById(R.id.et_name);
         TextEmail = (TextInputEditText) view.findViewById(R.id.et_email);
         TextPassword = (TextInputEditText) view.findViewById(R.id.et_password);
         TextConfirmPassword = (TextInputEditText) view.findViewById(R.id.et_repassword);
         ButtonRegister = (Button) view.findViewById(R.id.btn_register);
+        TextBudget = (TextInputEditText) view.findViewById(R.id.et_price);
 
     }
     /**
@@ -153,14 +157,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 LayoutConfirmPassword, getString(R.string.error_password_match))) {
             return;
         }
+
+        if (!inputValidation.isInputEditTextFilled(TextBudget,LayoutBudget, getString(R.string.error_budget))) {
+            return;
+        }
+
+
         if (!databaseHelper.checkUser(TextEmail.getText().toString().trim())) {
             user.setName(TextName.getText().toString().trim());
             user.setEmail(TextEmail.getText().toString().trim());
             user.setPassword(TextPassword.getText().toString().trim());
+            user.setBudget(TextBudget.getText().toString().trim());
             databaseHelper.addUser(user);
             // Snack Bar to show success message that record saved successfully
             Snackbar.make(nestedScrollView, getString(R.string.msg_Success), Snackbar.LENGTH_LONG).show();
             emptyInputEditText();
+
+            //go to next page that shows kroger search engine
+
         } else {
             // Snack Bar to show error message that record already exists
             Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
@@ -174,6 +188,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         TextEmail.setText(null);
         TextPassword.setText(null);
         TextConfirmPassword.setText(null);
+        TextBudget.setText(null);
     }
 
 

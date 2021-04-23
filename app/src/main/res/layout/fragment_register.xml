@@ -119,7 +119,26 @@
             
         </com.google.android.material.textfield.TextInputLayout>
 
-            
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutPriceGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_price"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/msg_goalBudget"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="15dp"
+                android:fontFamily="@font/roboto_regular"
+                android:inputType="numberDecimal"
+                android:textSize="15sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button

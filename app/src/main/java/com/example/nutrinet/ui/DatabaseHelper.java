@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "UserManager.db";
+    private static final String DATABASE_NAME = "UserDatabase.db";
     // User table name
     private static final String TABLE_USER = "user";
     // User Table Columns names
@@ -20,10 +20,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_EMAIL = "user_email";
     private static final String COLUMN_USER_PASSWORD = "user_password";
+    private static final String COLUMN_USER_BUDGET = "user_budget";
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
             + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT" + ")";
+            + COLUMN_USER_EMAIL + " TEXT," + COLUMN_USER_PASSWORD + " TEXT," + COLUMN_USER_BUDGET + " TEXT"+")";
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
     /**
@@ -56,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USER_NAME, user.getName());
         values.put(COLUMN_USER_EMAIL, user.getEmail());
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
+        values.put(COLUMN_USER_BUDGET,user.getBudget());
         // Inserting Row
         db.insert(TABLE_USER, null, values);
         db.close();
@@ -71,7 +73,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_USER_ID,
                 COLUMN_USER_EMAIL,
                 COLUMN_USER_NAME,
-                COLUMN_USER_PASSWORD
+                COLUMN_USER_PASSWORD,
+                COLUMN_USER_BUDGET
         };
         // sorting orders
         String sortOrder =
@@ -99,6 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setName(cursor.getString(cursor.getColumnIndex(COLUMN_USER_NAME)));
                 user.setEmail(cursor.getString(cursor.getColumnIndex(COLUMN_USER_EMAIL)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD)));
+                user.setBudget(cursor.getString(cursor.getColumnIndex(COLUMN_USER_BUDGET)));
                 // Adding user record to list
                 userList.add(user);
             } while (cursor.moveToNext());
@@ -119,6 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USER_NAME, user.getName());
         values.put(COLUMN_USER_EMAIL, user.getEmail());
         values.put(COLUMN_USER_PASSWORD, user.getPassword());
+        values.put(COLUMN_USER_BUDGET, user.getBudget());
         // updating row
         db.update(TABLE_USER, values, COLUMN_USER_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});

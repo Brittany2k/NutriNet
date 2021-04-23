@@ -9,6 +9,10 @@ import android.view.inputmethod.InputMethodManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.apache.xerces.impl.xs.identity.Selector;
+
+import java.util.regex.Matcher;
+
 public class InputValidation {
     private Context context;
     /**
@@ -38,6 +42,8 @@ public class InputValidation {
         }
         return true;
     }
+
+
     /**
      * method to check InputEditText has valid email .
      *
@@ -57,6 +63,20 @@ public class InputValidation {
         }
         return true;
     }
+
+    /*public boolean isInputEditTextNumber(TextInputEditText textInputEditText, TextInputLayout textInputLayout, String message) {
+        String value = textInputEditText.getText().toString().trim();
+        Matcher matcher =
+        if (value.isEmpty() || ) {
+            textInputLayout.setError(message);
+            hideKeyboardFrom(textInputEditText);
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+        }
+        return true;
+    }*/
+
     public boolean isInputEditTextMatches(TextInputEditText textInputEditText1, TextInputEditText textInputEditText2, TextInputLayout textInputLayout, String message) {
         String value1 = textInputEditText1.getText().toString().trim();
         String value2 = textInputEditText2.getText().toString().trim();

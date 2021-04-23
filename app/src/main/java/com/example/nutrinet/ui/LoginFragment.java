@@ -5,7 +5,11 @@ import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,8 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -107,7 +113,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                verifyFromSQLite();
+                verifyFromSQLite(v);
                 break;
             /*case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
@@ -120,7 +126,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     /**
      * This method is to validate the input text fields and verify login credentials from SQLite
      */
-    private void verifyFromSQLite() {
+    private void verifyFromSQLite(View v) {
         if (!inputValidation.isInputEditTextFilled(email_box, LayoutEmail, getString(R.string.error_message_email))) {
             return;
         }
@@ -135,6 +141,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             //if successful, then proceed in app
             Snackbar.make(nestedScrollView, getString(R.string.msg_Success), Snackbar.LENGTH_LONG).show();
             emptyInputEditText();
+            //AuthenticationPagerAdapter authenticationPagerAdapter = new AuthenticationPagerAdapter(getFragmentManager());
+            int howmany = MainActivity.pagerAdapter.getCount();
+            Log.i("LoginFragment ", String.valueOf(howmany));
+            //MainActivity.viewPager.setSwipeEnabled(false);
+            Intent intent = new Intent (getActivity(), SearchActivity.class);
+            startActivity(intent);
+
+            /*LoginFragment nextFrag= new LoginFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.viewPager, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();*/
+
+            //authenticationPagerAdapter.addFragmet(new LoginFragment());
+            //authenticationPagerAdapter.addFragmet(new RegisterFragment());
             //can be used to display all users in list form from class
             /*Intent accountsIntent = new Intent(getActivity(), UsersListActivity.class);
             accountsIntent.putExtra("EMAIL", email_box.getText().toString().trim());
@@ -148,6 +169,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     /**
      * This method is to empty all input edit text
      */
+    class AuthenticationPagerAdapter extends FragmentPagerAdapter {
+        private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        public AuthenticationPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return fragmentList.get(i);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        void addFragmet(Fragment fragment) {
+            fragmentList.add(fragment);
+        }
+
+        void removeFragment(Fragment fragment)
+        {
+            fragmentList.remove(fragment);
+        }
+    }
     private void emptyInputEditText() {
         email_box.setText(null);
         password_box.setText(null);

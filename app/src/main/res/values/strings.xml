@@ -20,8 +20,10 @@
 
     <string name="error_password_match">Error input Password Does Not Match</string>
     <string name="error_email_exists">Error input Email Does Not Exist</string>
+    <string name="error_budget">Error input Budget Not filled</string>
 
 
+    <string name="msg_goalBudget">Insert Goal Budget : ex 30.00</string>
     <string name="msg_Success">Success</string>
     <string name="error_valid_email_password">Error input Email and/or Password</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -31,4 +33,10 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
