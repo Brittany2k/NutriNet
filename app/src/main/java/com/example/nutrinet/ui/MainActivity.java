@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     ArrayList<ProduceNames> arraylist = new ArrayList<ProduceNames>();
     String TAG = "GetKroger";
     public static AuthenticationPagerAdapter pagerAdapter;
-    public static ViewPagerSwipeControlled viewPager;
+    public static ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
