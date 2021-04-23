@@ -53,7 +53,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.3"
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation files('libs/json-20210307.jar')
+
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     implementation 'com.android.support:appcompat-v7:29.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'

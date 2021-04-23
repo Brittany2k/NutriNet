@@ -157,12 +157,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         Log.d("NutritionClass", "Response called");
     }
 
-    /*public static boolean stringContainsItemFromList(String inputStr, String[] items) {
+    public static boolean stringContainsItemFromList(String inputStr, String[] items) {
         return Arrays.stream(items).anyMatch(inputStr::contains);
     }
     //returns a \n separated string of nutrition info
-    private static String GetTopNutrients(JSONArray nutrientsArray)
-    {
+    private static String GetTopNutrients(JSONArray nutrientsArray) throws JSONException {
         String calorieLine = "";
         String result = "";
 
@@ -186,14 +185,23 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     //returns a single line of nutrition info
     private static String GetItemNutrient(JSONObject nutrient)
     {
-        if(nutrient.get("nutrientName").equals("Energy"))
-        {
-            return "Calories:" + nutrient.get("value") + " Calories";
+        try {
+            if(nutrient.get("nutrientName").equals("Energy"))
+            {
+                return "Calories:" + nutrient.get("value") + " Calories";
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return nutrient.get("nutrientName") + ":" + nutrient.get("value") + nutrient.get("unitName").toString().toLowerCase();
+        try {
+            return nutrient.get("nutrientName") + ":" + nutrient.get("value") + nutrient.get("unitName").toString().toLowerCase();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    }*/
+        return null;
+    }
 
     public void getKrogerProduce() throws IOException {
         Log.d("SearchActivity", "Start getKrogerProduce");
