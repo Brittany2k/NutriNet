@@ -1,11 +1,16 @@
-package com.example.nutrinet;
+package com.example.nutrinet.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,7 @@ public class ListViewAdapter extends BaseAdapter {
 //
     public class ViewHolder {
         TextView name;
+        ImageView image;
     }
 
     @Override
@@ -53,12 +59,15 @@ public class ListViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.list_views_items, null);
             // Locate the TextViews in listview_item.xml
             holder.name = (TextView) view.findViewById(R.id.name);
+            holder.image = (ImageView) view.findViewById(R.id.imageView);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
+        String thename = produceNamesList.get(position).getProduceName();
         holder.name.setText(produceNamesList.get(position).getProduceName());
+        Picasso.with(mContext).load(produceNamesList.get(position).getImage()).into(holder.image);
         return view;
     }
 

@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">NutriNet</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_retype_password">Retype Password</string>
+    <string name="prompt_login">Login</string>
+    <string name="prompt_register">Register</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_first_name">First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+    <string name="swipe_left_for_register">Swipe left for Register</string>
+    <string name="swipe_right_for_login">Swipe right for Login</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="error_message_email">Error input Email</string>
+
+    <string name="error_message_name">Error input Name</string>
+
+    <string name="error_message_password">Error input Password</string>
+
+    <string name="error_password_match">Error input Password Does Not Match</string>
+    <string name="error_email_exists">Error input Email Does Not Exist</string>
+    <string name="error_budget">Error input Budget Not filled</string>
+
+
+    <string name="msg_goalBudget">Insert Goal Budget : ex 30.00</string>
+    <string name="msg_Success">Success</string>
+    <string name="error_valid_email_password">Error input Email and/or Password</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>
