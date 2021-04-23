@@ -29,6 +29,9 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
+    <string name ="progress_board_msg">Progress Board</string>
+    <string name ="progress_budget_msg">Budget</string>
+    <string name ="progress_nutrition_msg">Nutrition</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->

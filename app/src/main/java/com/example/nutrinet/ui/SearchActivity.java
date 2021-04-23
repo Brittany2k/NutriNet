@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -95,6 +96,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onQueryTextSubmit(String query) {
         try {
             getListOfProduce(tokens[5], query);
+            String key = "b2rbH8bEoIa1CeNb4Hi9Fa6K3b72SA5Nv3i5A5k2";
+            getNutitionInfo(key,query);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,6 +118,82 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         }*/
         return false;
     }
+
+    public void getNutitionInfo(String key, String query)
+    {
+        final String[] responser = new String[1];
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        String url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + key + "&query="
+                + query + "&numberOfResultsPerPage=1&pageSize=1&dataType=Survey%20(FNDDS)";
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("Accept", "application/json")
+                .addHeader("Authorization", key)
+                .build();
+
+
+        Log.d("NutritionClass", "Response");
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                Will return a string with the response of the access token, includes expires_in, access_token, and token_type
+                final String yourResponse = response.body().string();
+                if(response.isSuccessful()){
+                    Log.d("NutritionClass", "Success" + yourResponse);
+//                    Parses the response, tokens[5] is the accessToken
+
+                }else{
+                    Log.d("NutritionClass", "Not Successful" + yourResponse);
+                }
+            }
+        });
+        Log.d("NutritionClass", "Response called");
+    }
+
+    /*public static boolean stringContainsItemFromList(String inputStr, String[] items) {
+        return Arrays.stream(items).anyMatch(inputStr::contains);
+    }
+    //returns a \n separated string of nutrition info
+    private static String GetTopNutrients(JSONArray nutrientsArray)
+    {
+        String calorieLine = "";
+        String result = "";
+
+        for(int i = 0; i < nutrientsArray.length();i++)
+        {
+            JSONObject currentNutrient = nutrientsArray.getJSONObject(i);
+            String unit = (String)currentNutrient.get("nutrientName");
+            if(unit.equals("Fatty acids, total monounsaturated") || unit.equals("Fatty acids, total polyunsaturated")
+                    || unit.contains("Carbohydrate") || unit.equals("Sodium")
+                    || unit.equals("Protein") || unit.equals("Cholesterol"))
+
+                result += GetItemNutrient(currentNutrient) + "\n";
+            if(unit.equals("Energy"))
+                calorieLine = GetItemNutrient(currentNutrient) + "\n";
+        }
+
+        return calorieLine + result;
+
+    }
+
+    //returns a single line of nutrition info
+    private static String GetItemNutrient(JSONObject nutrient)
+    {
+        if(nutrient.get("nutrientName").equals("Energy"))
+        {
+            return "Calories:" + nutrient.get("value") + " Calories";
+        }
+
+        return nutrient.get("nutrientName") + ":" + nutrient.get("value") + nutrient.get("unitName").toString().toLowerCase();
+
+    }*/
 
     public void getKrogerProduce() throws IOException {
         Log.d("SearchActivity", "Start getKrogerProduce");
@@ -214,6 +293,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
                             arraylist.add(produceNames);
                         }
+
+
 
                         // Pass results to ListViewAdapter Class
                         adapter = new ListViewAdapter(getApplicationContext(), arraylist);
