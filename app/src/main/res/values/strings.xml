@@ -29,11 +29,14 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name ="progress_board_msg">Progress Board</string>
-    <string name ="progress_budget_msg">Budget</string>
-    <string name ="progress_nutrition_msg">Nutrition</string>
+    <string name="progress_board_msg">Progress Board</string>
+    <string name="progress_budget_msg">Budget</string>
+    <string name="progress_nutrition_msg">Nutrition</string>
+    <string name="exit_msg">Logout</string>
+    <string name="dots_msg">...</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_search">SearchActivity</string>
@@ -42,4 +45,5 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
 </resources>

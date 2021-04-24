@@ -35,6 +35,7 @@ public class ListViewAdapter extends BaseAdapter {
     public class ViewHolder {
         TextView name;
         ImageView image;
+        TextView nutrition_info;
     }
 
     @Override
@@ -60,6 +61,7 @@ public class ListViewAdapter extends BaseAdapter {
             // Locate the TextViews in listview_item.xml
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.image = (ImageView) view.findViewById(R.id.imageView);
+            holder.nutrition_info = (TextView) view.findViewById(R.id.nutrition_facts);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -67,6 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
         // Set the results into TextViews
         String thename = produceNamesList.get(position).getProduceName();
         holder.name.setText(produceNamesList.get(position).getProduceName());
+        holder.nutrition_info.setText(produceNamesList.get(position).getNutrition());
         Picasso.with(mContext).load(produceNamesList.get(position).getImage()).into(holder.image);
         return view;
     }

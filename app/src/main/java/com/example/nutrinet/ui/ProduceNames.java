@@ -15,6 +15,7 @@ public class ProduceNames {
     private String id;
     private String image;
     private String password;
+    private String info;
     public String getId() {
         return id;
     }
@@ -27,6 +28,8 @@ public class ProduceNames {
     public void setImage(String image) {
         this.image = image;
     }
+    public String getNutrition(){return info;}
+    public void setNutrition(String info){this.info = info;}
     public String getPassword() {
         return password;
     }

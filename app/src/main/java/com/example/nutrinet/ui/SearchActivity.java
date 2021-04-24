@@ -2,8 +2,15 @@ package com.example.nutrinet.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,13 +36,17 @@ import okhttp3.Response;
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private TextView mTextView;
+    private TextView nutritionTextView;
     ListView list;
     ListViewAdapter adapter;
+    private Spinner spinner;
+    private String[] paths = new String[0];
     SearchView editsearch;
     String[] produceNameList;
     static String[] tokens;
     ArrayList<ProduceNames> arraylist = new ArrayList<ProduceNames>();
     boolean searchStatus = false;
+    String foodResponse ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +69,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         // Locate the ListView in listview_main.xml
         list = (ListView) findViewById(R.id.listview);
+        nutritionTextView = (TextView) findViewById(R.id.nutrition_facts);
 
         //the length of the food categories string array
 
@@ -83,6 +95,32 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onQueryTextChange(String newText) {
 
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action:
+                finish();
+                System.exit(0);
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+
+    public String getFoodResponse()
+    {
+        return foodResponse;
     }
 
     public void getNutritionInfo(String key, String query)
@@ -114,7 +152,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 if(response.isSuccessful()){
                     Log.d("NutritionClass", "Success" + yourResponse);
                     try {
-                        String foodResponse = FindandDisplayFood(yourResponse);
+                        foodResponse = FindandDisplayFood(yourResponse);
+
+                        //nutritionTextView.setText(foodResponse);
                         Log.d("NutritionClass", "FindAndDisplayFoodResponse\n" + foodResponse);
 
                     } catch (InterruptedException | JSONException e) {
@@ -292,13 +332,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
                                 String key = "b2rbH8bEoIa1CeNb4Hi9Fa6K3b72SA5Nv3i5A5k2";
                                 getNutritionInfo(key, explrObject.getString("description"));
+                                Log.d("SearchActivity", "FOOD RESPONSE: " + foodResponse);
 
                                 JSONArray jsonArrayImages = explrObject.getJSONArray("images");
                                 JSONObject jsonArrayObj = jsonArrayImages.getJSONObject(0);
                                 JSONArray jsonArraySizes = jsonArrayObj.getJSONArray("sizes");
                                 JSONObject jsonUrl = jsonArraySizes.getJSONObject(0);
                                 produceNames.setImage(jsonUrl.getString("url"));
-
+                                produceNames.setNutrition(foodResponse);
                                 arraylist.add(produceNames);
                             }
                         }
@@ -320,6 +361,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                                 Log.i("Runnable","Im called");
                                 list.setAdapter(null);
                                 list.setAdapter(adapter);
+
                             }
                         });
 
