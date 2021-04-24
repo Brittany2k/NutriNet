@@ -1,10 +1,7 @@
 package com.example.nutrinet.ui;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -46,8 +43,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         mTextView = (TextView) findViewById(R.id.text);
 
-
-
         try{
             getKrogerProduce();
         }
@@ -65,25 +60,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         list = (ListView) findViewById(R.id.listview);
 
         //the length of the food categories string array
-        /*(for (int i = 0; i < produceNameList.length; i++) {
 
-            ProduceNames produceNames = new ProduceNames(produceNameList[i]);
-
-
-            //ProduceNames produceNames = new ProduceNames(produceNameList[i]);
-            // Binds all strings into an array
-            arraylist.add(produceNames);
-        }
-
-        // Pass results to ListViewAdapter Class
-        adapter = new ListViewAdapter(this, arraylist);
-
-        // Binds the Adapter to the ListView
-        list.setAdapter(adapter);
-
-        // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search);
-        editsearch.setOnQueryTextListener(this);*/
 
         // Locate the EditText in listview_main.xml
         editsearch = (SearchView) findViewById(R.id.search);
@@ -96,8 +73,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onQueryTextSubmit(String query) {
         try {
             getListOfProduce(tokens[5], query);
-            String key = "b2rbH8bEoIa1CeNb4Hi9Fa6K3b72SA5Nv3i5A5k2";
-            getNutitionInfo(key,query);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,20 +81,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        //String text = newText;
-        //adapter.filter(text);
-        /*if(TextUtils.isEmpty(newText))
-        {
 
-        }
-        else
-        {
-
-        }*/
         return false;
     }
 
-    public void getNutitionInfo(String key, String query)
+    public void getNutritionInfo(String key, String query)
     {
         final String[] responser = new String[1];
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -143,18 +109,47 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-//                Will return a string with the response of the access token, includes expires_in, access_token, and token_type
+//                Will return a string with the response
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
                     Log.d("NutritionClass", "Success" + yourResponse);
-//                    Parses the response, tokens[5] is the accessToken
+                    try {
+                        String foodResponse = FindandDisplayFood(yourResponse);
+                        Log.d("NutritionClass", "FindAndDisplayFoodResponse\n" + foodResponse);
 
+                    } catch (InterruptedException | JSONException e) {
+                        Log.d("NutritionClass", "Not Successful, failed within try - catch");
+                        e.printStackTrace();
+                    }
                 }else{
                     Log.d("NutritionClass", "Not Successful" + yourResponse);
                 }
             }
         });
         Log.d("NutritionClass", "Response called");
+    }
+
+    //finds the general food item of a given search and displays basic nutrition facts
+    public static String FindandDisplayFood(String item) throws IOException, InterruptedException, JSONException {
+        JSONObject body = new JSONObject(item);        //save request response as json object
+        Log.d("NutritionClass", "JSONObject body created");
+
+        JSONArray foodArr = body.getJSONArray("foods"); //get food json array
+        Log.d("NutritionClass", "JSONArray created");
+
+        for(int i = 0; i < foodArr.length(); i++)   //find item matching
+        {
+            JSONObject currentItem = foodArr.getJSONObject(i);
+
+            if(stringContainsItemFromList((String)currentItem.get("lowercaseDescription"), item.toLowerCase().split(" ")))
+            {
+                Log.d("NutritionClass", "Returning GetTopNutrients");
+                return GetTopNutrients(currentItem.getJSONArray("foodNutrients"));
+            }
+
+        }
+
+        return "No matching nutritional data found for item " + item;
     }
 
     public static boolean stringContainsItemFromList(String inputStr, String[] items) {
@@ -283,26 +278,37 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                         JSONObject jsonObject = new JSONObject(yourResponse);
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         arraylist.clear();
+                        boolean anyItemAvailable = false;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject explrObject = jsonArray.getJSONObject(i);
-                            ProduceNames produceNames = new ProduceNames();
-                            produceNames.setId(explrObject.getString("productId"));
-                            produceNames.setProduceName(explrObject.getString("description"));
 
-                            JSONArray jsonArrayImages = explrObject.getJSONArray("images");
-                            JSONObject jsonArrayObj = jsonArrayImages.getJSONObject(0);
-                            JSONArray jsonArraySizes = jsonArrayObj.getJSONArray("sizes");
-                            JSONObject jsonUrl = jsonArraySizes.getJSONObject(0);
-                            produceNames.setImage(jsonUrl.getString("url"));
+//                            Checks if the category of the item is acceptable (must be a food item)
+                            if(checkCategory(explrObject.getString("categories"))) {
+                                anyItemAvailable = true;
+                                ProduceNames produceNames = new ProduceNames();
+                                produceNames.setId(explrObject.getString("productId"));
+                                produceNames.setProduceName(explrObject.getString("description"));
+                                Log.d("SearchActivity", "Nutrition info of " + explrObject.getString("description"));
 
-                            //JSONObject jsonArrayObj = jsonArrayImages.getJSONObject(0);
+                                String key = "b2rbH8bEoIa1CeNb4Hi9Fa6K3b72SA5Nv3i5A5k2";
+                                getNutritionInfo(key, explrObject.getString("description"));
 
-                            //JSONArray jsonArraySizes =
+                                JSONArray jsonArrayImages = explrObject.getJSONArray("images");
+                                JSONObject jsonArrayObj = jsonArrayImages.getJSONObject(0);
+                                JSONArray jsonArraySizes = jsonArrayObj.getJSONArray("sizes");
+                                JSONObject jsonUrl = jsonArraySizes.getJSONObject(0);
+                                produceNames.setImage(jsonUrl.getString("url"));
 
-                            arraylist.add(produceNames);
+                                arraylist.add(produceNames);
+                            }
                         }
+                        if(!anyItemAvailable)
+                        {
+                            ProduceNames produceNames = new ProduceNames();
+                            produceNames.setProduceName("NO ITEMS ARE AVAILABLE WITH THIS SEARCH CRITERIA, PLEASE TRY AGAIN");
+                            arraylist.add(produceNames);
 
-
+                        }
 
                         // Pass results to ListViewAdapter Class
                         adapter = new ListViewAdapter(getApplicationContext(), arraylist);
@@ -317,15 +323,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                             }
                         });
 
-
-                        // Locate the EditText in listview_main.xml
-                        //editsearch = (SearchView) findViewById(R.id.search);
-                        //editsearch.setOnQueryTextListener(getCallingActivity());
-                        /*JSONArray jsonArray = new JSONArray(yourResponse);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                        }*/
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.d("SearchActivity", "Fail within JSONArray");
@@ -342,5 +339,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     {
         searchStatus = true;
         return searchStatus;
+    }
+    public boolean checkCategory(String currCategory){
+        String[] acceptableCategories = {"[\"Dairy\"]", "[\"Breakfast\"]", "[\"Natural & Organic\"]", "[\"Meat & Seafood\"]", "[\"Baking Goods\"]", "[\"Bakery\"]", "[\"Frozen\"]", "[\"Produce\"]", "[\"Canned & Packaged\"]", "[\"Beverages\"]", "[\"Pasta, Sauces, Grain\"]", "[\"Condiment & Sauces\"]", "[\"Snacks\"]", "[\"International\"]"};
+        for(int i = 0; i < acceptableCategories.length; i++)
+        {
+            if(currCategory.equals(acceptableCategories[i]))
+                return true;
+        }
+        return false;
     }
 }

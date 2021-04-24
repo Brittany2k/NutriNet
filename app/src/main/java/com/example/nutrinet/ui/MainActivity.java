@@ -1,6 +1,7 @@
 package com.example.nutrinet.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         viewPager = findViewById(R.id.viewPager);
 
@@ -63,33 +65,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
 
 
-
-
-        /*//this would be used for search for foods by categories
-        produceNameList = new String[]{"Fruits", "Vegetables", "Protein",
-                "Dairy", "Grains", "Oils"};
-
-        // Locate the ListView in listview_main.xml
-        list = (ListView) findViewById(R.id.listview);
-
-        //the length of the food categories string array
-        for (int i = 0; i < produceNameList.length; i++) {
-            ProduceNames produceNames = new ProduceNames(produceNameList[i]);
-            // Binds all strings into an array
-            arraylist.add(produceNames);
-        }
-
-        // Pass results to ListViewAdapter Class
-        adapter = new ListViewAdapter(this, arraylist);
-
-        // Binds the Adapter to the ListView
-        list.setAdapter(adapter);
-
-        // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search);
-        editsearch.setOnQueryTextListener(this);*/
-
-
     }
 
     @Override
@@ -101,15 +76,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
         //DETERMINE WHO STARTED THIS ACTIVITY
-        /*final String sender=this.getIntent().getExtras().getString("Sender");
-
-        //IF ITS THE FRAGMENT THEN RECEIVE DATA
-        if(sender != null)
-        {
-            this.receiveData();
-            Toast.makeText(this, "Received", Toast.LENGTH_SHORT).show();
-
-        }*/
     }
 
     private void receiveData()
@@ -119,11 +85,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         String name = i.getStringExtra("Sender");
         viewPager.setCurrentItem(2);
 
-        //int year = i.getIntExtra("YEAR_KEY",0);
-
-        //SET DATA TO TEXTVIEWS
-        //nameTxt.setText(name);
-        //yearTxt.setText(String.valueOf(year));
     }
 
 
