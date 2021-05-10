@@ -70,12 +70,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("Resume","Resume is called");
-
-        //    final String sender=this.getIntent().getExtras().getString("Sender");
 
 
-        //DETERMINE WHO STARTED THIS ACTIVITY
+
     }
 
     private void receiveData()
@@ -89,20 +86,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
     public void getKrogerProduce() throws IOException {
-        Log.d(TAG, "Start getKrogerProduce");
         OkHttpClient client = new OkHttpClient();
 
-        Log.d(TAG, "MediaType and RequestBody");
+
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "grant_type=client_credentials&scope=product.compact");
 
-        Log.d(TAG, "All variables initializing");
+
         String CLIENT_ID = "nutrinet-8c08e27315708844ee777b3fe60068e15317180199662325940";
         String CLIENT_SECRET = "hDOSR2rtvE691Yub9S46tPOUY355a8OtFelJg2gz";
         String encodedData = DatatypeConverter.printBase64Binary((CLIENT_ID + ":" + CLIENT_SECRET).getBytes("UTF-8"));
         String authorizationHeaderString = "Basic " + encodedData;
 
-        Log.d(TAG, "Actual Request starting");
+
         Request request = new Request.Builder()
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
@@ -110,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 .addHeader("Authorization", authorizationHeaderString)
                 .build();
 
-        Log.d(TAG, "Response");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -122,27 +117,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 //                Will return a string with the response of the access token, includes expires_in, access_token, and token_type
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
-                    Log.d(TAG, "Success" + yourResponse);
+
 //                    Parses the response, tokens[5] is the accessToken
                     String delims = "[\"]+";
                     String[] tokens = yourResponse.split(delims);
                     getListOfProduce(tokens[5]);
-                }else{
-                    Log.d(TAG, "Not Successful" + yourResponse);
                 }
             }
         });
-        Log.d(TAG, "Response called");
 
 
     }
     public void getListOfProduce(String accessToken) throws IOException {
-        Log.d(TAG, "Start getListOfProduce");
+
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
-        Log.d(TAG, "new Request");
         String authorizationToken = "Bearer " + accessToken;
         Request request = new Request.Builder()
                 .url("https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term=milk")
@@ -151,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 .addHeader("Authorization", authorizationToken)
                 .build();
 
-        Log.d(TAG, "Response");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -162,13 +152,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             public void onResponse(Call call, Response response) throws IOException {
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
-                    Log.d(TAG, "Success" + yourResponse);
+                    //Log.d(TAG, "Success" + yourResponse);
                 }else{
-                    Log.d(TAG, "Not Successful" + yourResponse);
+                    //Log.d(TAG, "Not Successful" + yourResponse);
                 }
             }
         });
-        Log.d(TAG, "Response called");
+
     }
 
 
@@ -209,14 +199,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             fragmentList.add(fragment);
         }
 
-        void removeFragment(Fragment fragment)
-        {
-            for(int i=0; i<fragmentList.size(); i++)
-                fragMan.beginTransaction().remove(fragmentList.get(i)).commit();
-            fragmentList.clear();
-            fragmentList=new ArrayList<Fragment>();
-            notifyDataSetChanged();
 
-        }
     }
 }

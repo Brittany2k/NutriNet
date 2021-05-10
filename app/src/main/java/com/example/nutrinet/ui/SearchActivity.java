@@ -138,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 .build();
 
 
-        Log.d("NutritionClass", "Response");
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -150,32 +150,32 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 //                Will return a string with the response
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
-                    Log.d("NutritionClass", "Success" + yourResponse);
+
                     try {
                         foodResponse = FindandDisplayFood(yourResponse);
 
                         //nutritionTextView.setText(foodResponse);
-                        Log.d("NutritionClass", "FindAndDisplayFoodResponse\n" + foodResponse);
+
 
                     } catch (InterruptedException | JSONException e) {
-                        Log.d("NutritionClass", "Not Successful, failed within try - catch");
+
                         e.printStackTrace();
                     }
                 }else{
-                    Log.d("NutritionClass", "Not Successful" + yourResponse);
+
                 }
             }
         });
-        Log.d("NutritionClass", "Response called");
+
     }
 
     //finds the general food item of a given search and displays basic nutrition facts
     public static String FindandDisplayFood(String item) throws IOException, InterruptedException, JSONException {
         JSONObject body = new JSONObject(item);        //save request response as json object
-        Log.d("NutritionClass", "JSONObject body created");
+
 
         JSONArray foodArr = body.getJSONArray("foods"); //get food json array
-        Log.d("NutritionClass", "JSONArray created");
+
 
         for(int i = 0; i < foodArr.length(); i++)   //find item matching
         {
@@ -183,7 +183,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
             if(stringContainsItemFromList((String)currentItem.get("lowercaseDescription"), item.toLowerCase().split(" ")))
             {
-                Log.d("NutritionClass", "Returning GetTopNutrients");
+
                 return GetTopNutrients(currentItem.getJSONArray("foodNutrients"));
             }
 
@@ -239,20 +239,18 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     }
 
     public void getKrogerProduce() throws IOException {
-        Log.d("SearchActivity", "Start getKrogerProduce");
+
         OkHttpClient client = new OkHttpClient();
 
-        Log.d("SearchActivity", "MediaType and RequestBody");
+
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "grant_type=client_credentials&scope=product.compact");
 
-        Log.d("SearchActivity", "All variables initializing");
         String CLIENT_ID = BuildConfig.ApiKey;
         String CLIENT_SECRET = BuildConfig.ApiSecret;
         String encodedData = DatatypeConverter.printBase64Binary((CLIENT_ID + ":" + CLIENT_SECRET).getBytes("UTF-8"));
         String authorizationHeaderString = "Basic " + encodedData;
 
-        Log.d("SearchActivity", "Actual Request starting");
         Request request = new Request.Builder()
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
@@ -260,7 +258,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 .addHeader("Authorization", authorizationHeaderString)
                 .build();
 
-        Log.d("SearchActivity", "Response");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -272,28 +269,27 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 //                Will return a string with the response of the access token, includes expires_in, access_token, and token_type
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
-                    Log.d("SearchActivity", "Success" + yourResponse);
+
 //                    Parses the response, tokens[5] is the accessToken
                     String delims = "[\"]+";
                     tokens = yourResponse.split(delims);
 
-                    //getListOfProduce(tokens[5]);
-                }else{
-                    Log.d("SearchActivity", "Not Successful" + yourResponse);
+
                 }
+
             }
         });
-        Log.d("SearchActivity", "Response called");
+
 
 
     }
     public void getListOfProduce(String accessToken, String query) throws IOException {
-        Log.d("SearchActivity", "Start getListOfProduce");
+
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         String url = "https://api.kroger.com/v1/products?filter.brand=Kroger&filter.term="+query;
-        Log.d("SearchActivity", "new Request");
+
         String authorizationToken = "Bearer " + accessToken;
         Request request = new Request.Builder()
                 .url(url)
@@ -302,7 +298,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 .addHeader("Authorization", authorizationToken)
                 .build();
 
-        Log.d("SearchActivity", "Response");
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -313,7 +309,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             public void onResponse(Call call, Response response) throws IOException {
                 final String yourResponse = response.body().string();
                 if(response.isSuccessful()){
-                    Log.d("SearchActivity", "Success" + yourResponse);
+
                     try {
                         JSONObject jsonObject = new JSONObject(yourResponse);
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -328,11 +324,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                                 ProduceNames produceNames = new ProduceNames();
                                 produceNames.setId(explrObject.getString("productId"));
                                 produceNames.setProduceName(explrObject.getString("description"));
-                                Log.d("SearchActivity", "Nutrition info of " + explrObject.getString("description"));
+
 
                                 String key = "b2rbH8bEoIa1CeNb4Hi9Fa6K3b72SA5Nv3i5A5k2";
                                 getNutritionInfo(key, explrObject.getString("description"));
-                                Log.d("SearchActivity", "FOOD RESPONSE: " + foodResponse);
+
 
                                 JSONArray jsonArrayImages = explrObject.getJSONArray("images");
                                 JSONObject jsonArrayObj = jsonArrayImages.getJSONObject(0);
@@ -358,7 +354,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.i("Runnable","Im called");
+
                                 list.setAdapter(null);
                                 list.setAdapter(adapter);
 
@@ -367,14 +363,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.d("SearchActivity", "Fail within JSONArray");
+
                     }
-                }else{
-                    Log.d("SearchActivity", "Not Successful" + yourResponse);
                 }
             }
         });
-        Log.d("SearchActivity", "Response called");
+
     }
 
     public boolean searchStatus(boolean searchStatus)
