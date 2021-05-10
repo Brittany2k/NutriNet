@@ -141,26 +141,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             //if successful, then proceed in app
             Snackbar.make(nestedScrollView, getString(R.string.msg_Success), Snackbar.LENGTH_LONG).show();
             emptyInputEditText();
-            //AuthenticationPagerAdapter authenticationPagerAdapter = new AuthenticationPagerAdapter(getFragmentManager());
             int howmany = MainActivity.pagerAdapter.getCount();
             Log.i("LoginFragment ", String.valueOf(howmany));
-            //MainActivity.viewPager.setSwipeEnabled(false);
             Intent intent = new Intent (getActivity(), SearchActivity.class);
             startActivity(intent);
 
-            /*LoginFragment nextFrag= new LoginFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.viewPager, nextFrag, "findThisFragment")
-                    .addToBackStack(null)
-                    .commit();*/
-
-            //authenticationPagerAdapter.addFragmet(new LoginFragment());
-            //authenticationPagerAdapter.addFragmet(new RegisterFragment());
             //can be used to display all users in list form from class
-            /*Intent accountsIntent = new Intent(getActivity(), UsersListActivity.class);
-            accountsIntent.putExtra("EMAIL", email_box.getText().toString().trim());
-            emptyInputEditText();
-            startActivity(accountsIntent);*/
+
         } else {
             // Snack Bar to show success message that record is wrong
             Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();

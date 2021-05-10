@@ -72,10 +72,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onResume();
         Log.i("Resume","Resume is called");
 
-        //    final String sender=this.getIntent().getExtras().getString("Sender");
-
-
-        //DETERMINE WHO STARTED THIS ACTIVITY
     }
 
     private void receiveData()
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
-
+//    Calls the kroger API and receives back an access token
     public void getKrogerProduce() throws IOException {
         Log.d(TAG, "Start getKrogerProduce");
         OkHttpClient client = new OkHttpClient();
@@ -136,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
 
     }
+
+//    Using access token received in getKrogerProduce(), receives
     public void getListOfProduce(String accessToken) throws IOException {
         Log.d(TAG, "Start getListOfProduce");
 

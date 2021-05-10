@@ -153,8 +153,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                     Log.d("NutritionClass", "Success" + yourResponse);
                     try {
                         foodResponse = FindandDisplayFood(yourResponse);
-
-                        //nutritionTextView.setText(foodResponse);
                         Log.d("NutritionClass", "FindAndDisplayFoodResponse\n" + foodResponse);
 
                     } catch (InterruptedException | JSONException e) {
@@ -277,7 +275,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                     String delims = "[\"]+";
                     tokens = yourResponse.split(delims);
 
-                    //getListOfProduce(tokens[5]);
                 }else{
                     Log.d("SearchActivity", "Not Successful" + yourResponse);
                 }
