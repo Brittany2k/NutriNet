@@ -16,6 +16,4 @@ Still running full testing on the login/registration capabilities but so far fin
 Had to comment out the search engine feature because it needs to be updated to work as a reaction from clicking registration button
 and login button.
 
-Future:
-Having the kroger API functioning, then we can update the search engine functionality.
-Once we parse/filter the information we need, then we can focus on updating search engine.
+
